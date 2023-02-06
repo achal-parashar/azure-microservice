@@ -64,5 +64,7 @@ namespace WisdomPetMedicine.Rescue.Api.ApplicationServices
             adopter.SetPhoneNumber(AdopterPhoneNumber.Create(command.PhoneNumber));
             await rescueRepository.UpdateAdopterAsync(adopter);
         }
+
+       
     }
 }
