@@ -6,6 +6,7 @@
 
   <ItemGroup>
     <Compile Remove="Infrastructure\PatientAggregateStoreRepository.cs" />
+    <Compile Remove="IntegrationEvents\PetFlaggedForAdoptionIntegrationEventHandler.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -17,6 +18,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\WisdomPetMedicine.Hospital.Domain\WisdomPetMedicine.Hospital.Domain.csproj" />
+    <ProjectReference Include="..\WisdomPetMedicine.Hospital.Infrastructure\WisdomPetMedicine.Hospital.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>

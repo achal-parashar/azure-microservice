@@ -7,22 +7,30 @@ using Newtonsoft.Json;
 using System.Threading;
 using System.Threading.Tasks;
 using WisdomPetMedicine.Hospital.Api.Infrastructure;
+using WisdomPetMedicine.Hospital.Domain.Entities;
+using WisdomPetMedicine.Hospital.Domain.Repositories;
+using WisdomPetMedicine.Hospital.Domain.ValueObjects;
 
 namespace WisdomPetMedicine.Hospital.Api.IntegrationEvents
 {
     public class PetTransferredToHospitalIntegrationEventHandler : BackgroundService
     {
+        private readonly IConfiguration _configuration;
         private readonly IServiceScopeFactory _serviceScopeFactory;
+        private readonly IPatientAggregateStore _patientAggregateStore;
         private readonly ILogger<PetTransferredToHospitalIntegrationEventHandler> _logger;
         private readonly ServiceBusClient _client;
         private readonly ServiceBusProcessor _processor;
+      
         public PetTransferredToHospitalIntegrationEventHandler(IConfiguration configuration,
                                                                IServiceScopeFactory serviceScopeFactory,
+                                                               IPatientAggregateStore patientAggregateStore,
                                                                ILogger<PetTransferredToHospitalIntegrationEventHandler> logger)
         {
+            _configuration = configuration;
             _serviceScopeFactory = serviceScopeFactory;
             _logger = logger;
-
+            _patientAggregateStore = patientAggregateStore;
             _client = new ServiceBusClient(configuration["ServiceBus:ConnectionString"]);
             _processor = _client.CreateProcessor(configuration["ServiceBus:TopicName"], configuration["ServiceBus:SubscriptionName"]);
             _processor.ProcessMessageAsync += Processor_ProcessMessageAsync;
@@ -53,6 +61,10 @@ namespace WisdomPetMedicine.Hospital.Api.IntegrationEvents
                 dbContext.PatientsMetadata.Add(theEvent);
                 await dbContext.SaveChangesAsync();
             }
+
+            var patientId = PatientId.Create(theEvent.Id);
+            var patient = new Patient(patientId);
+            await _patientAggregateStore.SaveAsync(patient);
         }
 
         private Task Processor_ProcessErrorAsync(ProcessErrorEventArgs args)

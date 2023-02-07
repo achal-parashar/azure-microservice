@@ -8,6 +8,7 @@ using WisdomPetMedicine.Hospital.Api.ApplicationServices;
 using WisdomPetMedicine.Hospital.Api.Infrastructure;
 using WisdomPetMedicine.Hospital.Api.IntegrationEvents;
 using WisdomPetMedicine.Hospital.Domain.Repositories;
+using WisdomPetMedicine.Hospital.Infrastructure;
 
 namespace WisdomPetMedicine.Hospital.Api
 {
@@ -24,7 +25,7 @@ namespace WisdomPetMedicine.Hospital.Api
         {
             services.AddHospitalDb(Configuration);
             services.AddScoped<HospitalApplicationService>();
-            services.AddScoped<IPatientAggregateStore>();
+            services.AddSingleton<IPatientAggregateStore, PatientAggregateStore>();
             services.AddHostedService<PetTransferredToHospitalIntegrationEventHandler>();
             services.AddControllers();
             services.AddSwaggerGen(c =>
