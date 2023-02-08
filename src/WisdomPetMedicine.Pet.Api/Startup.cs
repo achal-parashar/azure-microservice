@@ -22,6 +22,7 @@ namespace WisdomPetMedicine.Pet.Api
 
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddHealthChecks().AddDbContextCheck<PetDbContext>();
             services.AddPetDb(Configuration);
             services.AddScoped<IPetRepository, PetRepository>();
             services.AddScoped<PetApplicationService>();
@@ -41,12 +42,13 @@ namespace WisdomPetMedicine.Pet.Api
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "WisdomPetMedicine.Api v1"));
             }
-            app.EnsurePetDbIsCreated();
+            //app.EnsurePetDbIsCreated();
             app.UseHttpsRedirection();
             app.UseRouting();
             app.UseAuthorization();
             app.UseEndpoints(endpoints =>
             {
+                endpoints.MapHealthChecks("/health");
                 endpoints.MapControllers();
             });
         }

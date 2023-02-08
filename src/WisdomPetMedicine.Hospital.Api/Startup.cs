@@ -23,6 +23,8 @@ namespace WisdomPetMedicine.Hospital.Api
 
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddHealthChecks()
+                   .AddCosmosDbCheck(Configuration);
             services.AddHospitalDb(Configuration);
             services.AddScoped<HospitalApplicationService>();
             services.AddSingleton<IPatientAggregateStore, PatientAggregateStore>();
@@ -47,6 +49,7 @@ namespace WisdomPetMedicine.Hospital.Api
             app.UseAuthorization();
             app.UseEndpoints(endpoints =>
             {
+                endpoints.MapHealthChecks("/health");
                 endpoints.MapControllers();
             });
         }
