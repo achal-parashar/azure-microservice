@@ -8,8 +8,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace WisdomPetMedicine.RescueQuery.Api.Controllers
+namespace WisdomPetMedicine.RescueQuery.Api.Controllers.V1
 {
+    [ApiVersion("1.0")]
     [ApiController]
     [Route("[controller]")]
     public class ResqueQueryController : ControllerBase
