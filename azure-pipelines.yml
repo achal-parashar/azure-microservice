@@ -54,7 +54,9 @@ steps:
     scannerMode: 'MSBuild'
     projectKey: 'dev-test2023'
     projectName: 'dev-test2023'
+    
 - task: SonarCloudAnalyze@1
+
 - task: SonarCloudPublish@1
   inputs:
     pollingTimeoutSec: '300'
