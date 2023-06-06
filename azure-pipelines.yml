@@ -51,7 +51,7 @@ steps:
   inputs:
     SonarCloud: 'sonarcloud'
     organization: 'dev-test2023'
-    scannerMode: 'dotnet build'
+    scannerMode: 'MSBuild'
     projectKey: 'dev-test2023'
     projectName: 'dev-test2023'
 
