@@ -23,6 +23,7 @@ namespace WisdomPetMedicine.Hospital.Domain.Tests
         {
             var patient = new Patient(PatientId.Create(Guid.NewGuid()));
             patient.SetBloodType(PatientBloodType.Create("DEA-1.1"));
+            patient.SetWeight(PatientWeight.Create(56));
             patient.AdmitPatient();
         }
     }
