@@ -7,7 +7,7 @@ trigger:
 - dotnet6migration
 
 pool:
-  vmImage: 'ubuntu-latest'
+  vmImage: 'windows-latest'
 
 variables:
   solution: '**/*.sln'
@@ -51,7 +51,7 @@ steps:
 - task: WhiteSource@21
   inputs:
     cwd: '$(System.DefaultWorkingDirectory)'
-    
+
 - task: SonarCloudPrepare@1
   inputs:
     SonarCloud: 'sonarcloud'
