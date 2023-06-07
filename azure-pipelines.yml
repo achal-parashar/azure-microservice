@@ -3,68 +3,6 @@
 # Add steps that publish symbols, save build artifacts, and more:
 # https://docs.microsoft.com/azure/devops/pipelines/languages/dotnet-core
 
-# trigger:
-# - dotnet6migration
-
-# pool:
-#   vmImage: 'ubuntu-latest'
-
-# variables:
-#   solution: '**/*.sln'
-#   buildPlatform: 'Any CPU'
-#   buildConfiguration: 'Release'
-#   YARN_CACHE_FOLDER: $(Pipeline.Workspace)/.yarn
-
-# steps:
-
-# - task: UseDotNet@2
-#   displayName: 'Install .NET Core SDK'
-#   inputs:
-#     version: '6.x'
-
-# - task: NuGetToolInstaller@1
-
-# - task: NuGetCommand@2
-#   inputs:
-#    command: 'restore'
-#    restoreSolution: '$(solution)'
-   
-# - task: DotNetCoreCLI@2
-#   displayName: 'dotnet build $(buildConfiguration)'
-#   inputs:
-#     command: 'build'
-#     arguments: '--configuration $(buildConfiguration)'
- 
-# - task: DotNetCoreCLI@2
-#   displayName: 'running test cases'
-#   inputs:
-#     command: test
-#     projects: '**/*Tests/*.csproj'
-#     arguments: '--configuration $(buildConfiguration) --collect:"XPlat Code Coverage" -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=cobertura'
-
-# - task: PublishCodeCoverageResults@1
-#   displayName: 'Publish code coverage report'
-#   inputs:
-#     codeCoverageTool: 'Cobertura'
-#     summaryFileLocation: '$(Agent.TempDirectory)/**/coverage.cobertura.xml'
-
-# - task: WhiteSource@21
-#   inputs:
-#     cwd: '$(System.DefaultWorkingDirectory)'
-
-# - task: SonarCloudPrepare@1
-#   inputs:
-#     SonarCloud: 'sonarcloud'
-#     organization: 'dev-test2023'
-#     scannerMode: 'MSBuild'
-#     projectKey: 'dev-test2023_achaldevorg'
-#     projectName: 'dev-test2023'
-
-# - task: SonarCloudAnalyze@1
-
-# - task: SonarCloudPublish@1
-#   inputs:
-#     pollingTimeoutSec: '300'
 trigger:
 - dotnet6migration
 
@@ -77,30 +15,102 @@ variables:
   buildConfiguration: 'Release'
 
 steps:
+
+- task: UseDotNet@2
+  displayName: 'Install .NET Core SDK'
+  inputs:
+    version: '6.x'
+
 - task: NuGetToolInstaller@1
 
 - task: NuGetCommand@2
   inputs:
+   command: 'restore'
    restoreSolution: '$(solution)'
+
+ - task: SonarCloudPrepare@1
+   inputs:
+    SonarCloud: 'sonarcloud'
+    organization: 'dev-test2023'
+    scannerMode: 'MSBuild'
+    projectKey: 'dev-test2023_sonartesting'
+    projectName: 'dev-test2023_sonartesting'   
+
+- task: DotNetCoreCLI@2
+  displayName: 'dotnet build $(buildConfiguration)'
+  inputs:
+    command: 'build'
+    arguments: '--configuration $(buildConfiguration)'
+ 
+- task: DotNetCoreCLI@2
+  displayName: 'running test cases'
+  inputs:
+    command: test
+    projects: '**/*Tests/*.csproj'
+    arguments: '--configuration $(buildConfiguration) --collect:"XPlat Code Coverage" -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=cobertura'
+
+- task: PublishCodeCoverageResults@1
+  displayName: 'Publish code coverage report'
+  inputs:
+    codeCoverageTool: 'Cobertura'
+    summaryFileLocation: '$(Agent.TempDirectory)/**/coverage.cobertura.xml'
+
+- task: WhiteSource@21
+  inputs:
+    cwd: '$(System.DefaultWorkingDirectory)'
 
 - task: SonarCloudPrepare@1
   inputs:
     SonarCloud: 'sonarcloud'
     organization: 'dev-test2023'
     scannerMode: 'MSBuild'
-    projectKey: 'dev-test2023_sonartesting'
-    projectName: 'dev-test2023_sonartesting'
-
-- task: VSBuild@1
-  inputs:
-    solution: '$(solution)'
-    msbuildArgs: '/p:DeployOnBuild=true /p:WebPublishMethod=Package /p:PackageAsSingleFile=true /p:SkipInvalidConfigurations=true /p:DesktopBuildPackageLocation="$(build.artifactStagingDirectory)\WebApp.zip" /p:DeployIisAppPath="Default Web Site"'
-    platform: '$(buildPlatform)'
-    configuration: '$(buildConfiguration)'
-
+    projectKey: 'dev-test2023_achaldevorg'
+    projectName: 'dev-test2023'
 
 - task: SonarCloudAnalyze@1
 
 - task: SonarCloudPublish@1
   inputs:
     pollingTimeoutSec: '300'
+
+
+#SOnar cube integration on windows
+# trigger:
+# - dotnet6migration
+
+# pool:
+#   vmImage: 'windows-latest'
+
+# variables:
+#   solution: '**/*.sln'
+#   buildPlatform: 'Any CPU'
+#   buildConfiguration: 'Release'
+
+# steps:
+# - task: NuGetToolInstaller@1
+
+# - task: NuGetCommand@2
+#   inputs:
+#    restoreSolution: '$(solution)'
+
+# - task: SonarCloudPrepare@1
+#   inputs:
+#     SonarCloud: 'sonarcloud'
+#     organization: 'dev-test2023'
+#     scannerMode: 'MSBuild'
+#     projectKey: 'dev-test2023_sonartesting'
+#     projectName: 'dev-test2023_sonartesting'
+
+# - task: VSBuild@1
+#   inputs:
+#     solution: '$(solution)'
+#     msbuildArgs: '/p:DeployOnBuild=true /p:WebPublishMethod=Package /p:PackageAsSingleFile=true /p:SkipInvalidConfigurations=true /p:DesktopBuildPackageLocation="$(build.artifactStagingDirectory)\WebApp.zip" /p:DeployIisAppPath="Default Web Site"'
+#     platform: '$(buildPlatform)'
+#     configuration: '$(buildConfiguration)'
+
+
+# - task: SonarCloudAnalyze@1
+
+# - task: SonarCloudPublish@1
+#   inputs:
+#     pollingTimeoutSec: '300'
