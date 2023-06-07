@@ -57,7 +57,7 @@ steps:
     SonarCloud: 'sonarcloud'
     organization: 'dev-test2023'
     scannerMode: 'MSBuild'
-    projectKey: 'dev-test2023'
+    projectKey: 'AchalDevOrg'
     projectName: 'dev-test2023'
 
 - task: SonarCloudAnalyze@1
