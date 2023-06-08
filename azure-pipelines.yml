@@ -40,8 +40,8 @@ steps:
    cliSources: 'src'
    bash: |
     dotnet build
-   projectKey: 'dev-test2023_sonartesting'
-   projectName: 'dev-test2023_sonartesting'   
+   cliProjectKey: 'dev-test2023_sonartesting'
+   cliProjectKey: 'dev-test2023_sonartesting'   
 
 - task: DotNetCoreCLI@2
   displayName: 'dotnet build $(buildConfiguration)'
