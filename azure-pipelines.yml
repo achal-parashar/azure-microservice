@@ -7,7 +7,7 @@ trigger:
 - dotnet6migration
 
 pool:
-  vmImage: 'windows-latest'
+  vmImage: 'ubuntu-latest'
 
 variables:
   solution: '**/*.sln'
@@ -29,10 +29,11 @@ steps:
    restoreSolution: '$(solution)'
 
 - task: SonarCloudPrepare@1
+  displayName: Sonar prepare
   inputs:
    SonarCloud: 'sonarcloud'
    organization: 'dev-test2023'
-   scannerMode: 'MSBuild'
+   scannerMode: 'CLI'
    projectKey: 'dev-test2023_sonartesting'
    projectName: 'dev-test2023_sonartesting'   
 
