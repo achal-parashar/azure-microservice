@@ -28,14 +28,14 @@ steps:
    command: 'restore'
    restoreSolution: '$(solution)'
 
-- task: SonarCloudPrepare@1
-  displayName: Sonar prepare
-  inputs:
-   SonarCloud: 'sonarcloud'
-   organization: 'dev-test2023'
-   scannerMode: 'CLI'
-   projectKey: 'dev-test2023_sonartesting'
-   projectName: 'dev-test2023_sonartesting'   
+# - task: SonarCloudPrepare@1
+#   displayName: Sonar prepare
+#   inputs:
+#    SonarCloud: 'sonarcloud'
+#    organization: 'dev-test2023'
+#    scannerMode: 'CLI'
+#    projectKey: 'dev-test2023_sonartesting'
+#    projectName: 'dev-test2023_sonartesting'   
 
 - task: DotNetCoreCLI@2
   displayName: 'dotnet build $(buildConfiguration)'
@@ -68,11 +68,11 @@ steps:
 #     projectKey: 'dev-test2023_achaldevorg'
 #     projectName: 'dev-test2023'
 
-- task: SonarCloudAnalyze@1
+# - task: SonarCloudAnalyze@1
 
-- task: SonarCloudPublish@1
-  inputs:
-    pollingTimeoutSec: '300'
+# - task: SonarCloudPublish@1
+#   inputs:
+#     pollingTimeoutSec: '300'
 
 
 #SOnar cube integration on windows
