@@ -33,6 +33,8 @@ steps:
   inputs:
    SonarCloud: 'sonarcloud'
    organization: 'dev-test2023'
+   cliProjectKey: 'dev-test2023_sonartesting'
+   cliProjectName: 'dev-test2023_sonartesting'   
    scannerMode: 'CLI'
    configMode: 'manual'
    cliProjectVersion: '1.0'
@@ -40,9 +42,7 @@ steps:
    cliSources: 'src'
    bash: |
     dotnet build
-   cliProjectKey: 'dev-test2023_sonartesting'
-   cliProjectKey: 'dev-test2023_sonartesting'   
-
+    
 - task: DotNetCoreCLI@2
   displayName: 'dotnet build $(buildConfiguration)'
   inputs:
