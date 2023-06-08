@@ -60,13 +60,13 @@ steps:
   inputs:
     cwd: '$(System.DefaultWorkingDirectory)'
 
-- task: SonarCloudPrepare@1
-  inputs:
-    SonarCloud: 'sonarcloud'
-    organization: 'dev-test2023'
-    scannerMode: 'MSBuild'
-    projectKey: 'dev-test2023_achaldevorg'
-    projectName: 'dev-test2023'
+# - task: SonarCloudPrepare@1
+#   inputs:
+#     SonarCloud: 'sonarcloud'
+#     organization: 'dev-test2023'
+#     scannerMode: 'MSBuild'
+#     projectKey: 'dev-test2023_achaldevorg'
+#     projectName: 'dev-test2023'
 
 - task: SonarCloudAnalyze@1
 
